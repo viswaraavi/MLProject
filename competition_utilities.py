@@ -6,10 +6,20 @@ import numpy as np
 import os
 import pandas as pd
 
-data_path = None
-submissions_path = None
+data_path ="/home/viswa/Downloads/"
+submissions_path = "/home/viswa/Downloads/"
 if not data_path or not submissions_path:
     raise Exception("Set the data and submission paths in competition_utilities.py!")
+
+labels = [
+    'open',
+    'not a real question',
+    'off topic',
+    'not constructive',
+    'too localized']
+
+sorted_labels = [label for label in labels]
+sorted_labels.sort()
 
 def parse_date_maybe_null(date):
     if date:
@@ -42,7 +52,7 @@ def iter_open_questions(file_name):
     return (question[1] for df in df_iter for question in df[df["OpenStatus"] == "open"].iterrows())
 
 def get_dataframe(file_name="train-sample.csv"):
-    return pd.io.parsers.read_csv(os.path.join(data_path, file_name), converters = df_converters)
+    return pd.io.parsers.read_csv(os.path.join(data_path, file_name), converters=df_converters)
 
 def get_priors(file_name):
     closed_reasons = [r[14] for r in get_reader(file_name)]
